@@ -1,0 +1,84 @@
+:root {
+    --main-color-light: hsl(152, 90%, 45%);
+    --main-color: hsl(152, 90%, 40%);
+    --hover-color: hsl(152, 90%, 35%);
+
+    --danger-color: hsl(4, 90%, 50%);
+    --danger-hover-color: hsl(4, 90%, 45%);
+
+    --background-dark: hsl(0, 0%, 10%);
+    --background-dark-lighter: hsl(0, 0%, 20%);
+
+    --popup-color: rgba(0, 0, 0, 0.9);
+
+    --text-color: hsl(0, 0%, 95%);
+
+    --big-border-radius: 12px;
+    --medium-border-radius: 8px;
+    --small-border-radius: 4px;
+}
+* {
+    font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+    color: var(--text-color);
+    transition: 0.15s;
+}
+body {
+    background-color: var(--background-dark);
+    margin: 0px;
+    height: 100vh;
+
+    background-image: url(../images/neon_town.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    
+    /* backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px); */
+}
+
+/* Center containers */
+
+.center-inside {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+    border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--main-color-light);
+}
+
+/* Buttons */
+
+button {
+    margin: 8px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: var(--medium-border-radius);
+    cursor: pointer;
+}
+
+/* Little details*/
+
+/* Changes input carret color */
+input {
+    caret-color: var(--main-color);
+}
+
+/* Changes text selecton background color */
+::selection {
+    background-color: var(--main-color);
+}

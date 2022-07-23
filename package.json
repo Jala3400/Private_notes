@@ -1,0 +1,11 @@
+{
+  "name": "private_notes",
+  "version": "1.0.0",
+  "description": "Encrypt your notes",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Jala3400",
+  "license": "GPL-3.0-or-later"
+}

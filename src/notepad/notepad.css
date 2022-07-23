@@ -1,0 +1,8 @@
+#editor {
+    min-width: 100%;
+    min-height: 100vh;
+    outline: none;
+    border: none;
+    resize: none;
+    overflow: none;
+}
