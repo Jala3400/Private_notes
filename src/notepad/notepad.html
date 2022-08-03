@@ -12,12 +12,17 @@
         <link rel="stylesheet" type="text/css" href="notepad.css" />
     </head>
     <body>
-        <div class="center-inside background">
+        <div class="center-inside">
             <h1>Notes</h1>
+            <div class="button-container">
+                <button id="openFile">Open file</button>
+                <button id="saveFile">Save file</button>
+            </div>
             <textarea id="editor"></textarea>
 
             <!-- You can also require other files to run in this process -->
             <script src="../renderer.js"></script>
+            <script src="./notepad.js"></script>
         </div>
     </body>
 </html>

@@ -1,6 +1,6 @@
-const { app, BrowserWindow, dialog, Menu, ipcMain, Notification } = require('electron')
+const { app, BrowserWindow, dialog, Menu, ipcMain } = require('electron')
 const path = require('path')
-const fs = require('fs')
+const { FileManagement } = require('./scripts/fileManagement');
 const CryptoJS = require('crypto-js');
 
 let mainWindow;
@@ -24,15 +24,29 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     });
 
-    // IpcMain
+    // Communication between renderer and main
 
     ipcMain.on('login', login);
     ipcMain.on('confirmPassword', confirmPassword);
+    ipcMain.on('openFile', tempOpenFile);
+    ipcMain.on('saveFile', tempSaveFile);
 })
+
+// Functions used to fix an UnhandledPromiseRejectionWarning error with ipcMain.on
+
+function tempOpenFile(event) {
+    // Intermediate function to open file
+    fm.openFile(event);
+}
+
+function tempSaveFile(event, content) {
+    fm.saveFile(event, content);
+}
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
 })
+
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
@@ -62,16 +76,47 @@ const template = [
         submenu: [
             isMac ? { role: 'close' } : { role: 'quit' },
             {
-                label: "Open Files",
+                label: "Open File",
                 accelerator: 'CmdOrCtrl+O',
                 click: function () {
-                    openFiles();
+                    if (metapassword) {
+                        fm.openFile();
+                    }
+                    else
+                        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                            title: 'Error',
+                            type: 'info',
+                            message: `Login required`,
+                        });
                 },
             },
             {
-                label: "Open recent",
+                label: "Open Folder",
                 click: function () {
-                    console.log("Open Recent Clicked");
+                    if (metapassword) {
+                        fm.openFolder();
+                    }
+                    else
+                        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                            title: 'Error',
+                            type: 'info',
+                            message: `Login required`,
+                        });
+                },
+            },
+            {
+                label: "Save File",
+                accelerator: 'CmdOrCtrl+S',
+                click: function () {
+                    if (metapassword) {
+                        mainWindow.webContents.send('saveContent')
+                    }
+                    else
+                        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                            title: 'Error',
+                            type: 'info',
+                            message: `Login required`,
+                        });
                 },
             },
         ]
@@ -183,19 +228,25 @@ function confirmPassword(event, password2) {
         createMetapassword();
         mainWindow.loadFile("src/notepad/notepad.html");
     } else {
-        new Notification({ title: "Incorrect password", body: "Try again" }).show();
+
+        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+            title: 'Error',
+            type: 'info',
+            message: `Wrong password`,
+        });
         mainWindow.loadFile("src/login/login.html");
     }
 }
 
-let metapassword;
+let metapassword = null;
+let fm;
 
 function createMetapassword() {
     metapassword = CryptoJS.SHA3(username + '~' + password).toString();
+
+    // Update file management
+    fm = new FileManagement(mainWindow, metapassword);
 }
+// Initialize file management
 
-
-// Open Files
-function openFiles() {
-
-}
+// fm = new FileManagement(mainWindow, '');

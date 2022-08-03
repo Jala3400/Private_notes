@@ -27,7 +27,7 @@ body {
     margin: 0px;
     height: 100vh;
 
-    background-image: url(../images/neon_town.png);
+    background-image: url(../assets/images/background.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

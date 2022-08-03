@@ -4,8 +4,7 @@
   "description": "App to encrypt notes",
   "main": "src/main.js",
   "scripts": {
-    "start": "electron .",
-    "test": "test"
+    "start": "electron ."
   },
   "author": "Jala 3400",
   "license": "GPL-3.0-or-later",

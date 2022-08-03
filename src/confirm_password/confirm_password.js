@@ -3,4 +3,9 @@ function confirmPassword() {
     window.electronAPI.confirmPassword(password2);
 }
 
+function cancel() {
+    window.location.assign("../login/login.html");
+}
+
 document.getElementById("loginbtn").onclick = confirmPassword;
+document.getElementById("cancelbtn").onclick = cancel;

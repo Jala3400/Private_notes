@@ -5,8 +5,9 @@
 }
 #editor {
     width: 90%;
-    min-height: 80%;
+    min-height: 66%;
     background-color: var(--background-dark);
+    margin: 5px;
     padding: 7px 10px;
     outline: none;
     border-radius: var(--medium-border-radius);
@@ -17,5 +18,11 @@
     outline: solid 1px var(--main-color) !important;
 }
 h1 {
-    margin-top: 5px;
+    margin: 5px;
+}
+.button-container {
+    margin: 5px;
+}
+button {
+    color: black;
 }
