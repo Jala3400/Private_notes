@@ -3,6 +3,8 @@ const path = require('path')
 const { FileManagement } = require('./scripts/fileManagement');
 const CryptoJS = require('crypto-js');
 
+//* ========================= Main Process =========================
+
 let mainWindow;
 const createWindow = () => {
     // Create the browser window.
@@ -213,7 +215,7 @@ Menu.setApplicationMenu(menu)
 // code. You can also put them in separate files and require them here.
 
 
-// Login
+//* ========================= Login =========================
 
 let username;
 let password;
@@ -242,7 +244,7 @@ let metapassword = null;
 let fm;
 
 function createMetapassword() {
-    metapassword = CryptoJS.SHA3(username + '~' + password).toString();
+    metapassword = CryptoJS.SHA3(username + '#' + password).toString();
 
     // Update file management
     fm = new FileManagement(mainWindow, metapassword);

@@ -65,7 +65,7 @@ body {
 
 button {
     margin: 8px;
-    padding: 10px 18px;
+    padding: 10px;
     border: none;
     border-radius: var(--medium-border-radius);
     cursor: pointer;
