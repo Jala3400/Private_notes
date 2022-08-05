@@ -249,6 +249,3 @@ function createMetapassword() {
     // Update file management
     fm = new FileManagement(mainWindow, metapassword);
 }
-// Initialize file management
-
-// fm = new FileManagement(mainWindow, '');

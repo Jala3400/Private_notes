@@ -1,5 +1,6 @@
 const { dialog } = require('electron');
 const fs = require('fs');
+const enc = require('../scripts/encrypter');
 
 class FileManagement {
 
@@ -21,7 +22,8 @@ class FileManagement {
         if (files) {
             const file = files[0];
             const fileContent = fs.readFileSync(file).toString();
-            this._mainWindow.webContents.send('displayFile', fileContent);
+            const decryptedContent = enc.decrypt(fileContent, this.metapassword);
+            this._mainWindow.webContents.send('displayFile', decryptedContent);
         }
         else return;
     }
@@ -51,8 +53,9 @@ class FileManagement {
             // defaultPath: app.getPath('desktop')
         })
         if (filePath) {
+            const encyptedContent = enc.encrypt(content, this.metapassword);
             fs.writeFile(filePath,
-                content, (err) => {
+                encyptedContent, (err) => {
                     if (err) {
                         dialog.showMessageBox(this._mainWindow, {
                             title: 'Download Error',
