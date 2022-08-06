@@ -13,7 +13,7 @@ class FileManagement {
 
         // Looking for markdown files
         const files = dialog.showOpenDialogSync(this._mainWindow, {
-            filters: [{ name: 'Markdown', extensions: ['md', 'markdown', 'txt'] }],
+            filters: [{ name: 'Markdown', extensions: ['md', 'markdown', 'txt', 'lock'] }],
             properties: ['openFile', 'dontAddToRecent'],
             // defaultPath: app.getPath('desktop')
         });
@@ -48,7 +48,7 @@ class FileManagement {
 
     async saveFile(event, content) {
         let filePath = dialog.showSaveDialogSync(this._mainWindow, {
-            filters: [{ name: 'Markdown', extensions: ['md', 'markdown', 'txt'] }],
+            filters: [{ name: 'Markdown', extensions: ['md', 'markdown', 'txt', 'lock'] }],
             properties: ['dontAddToRecent'],
             // defaultPath: app.getPath('desktop')
         })

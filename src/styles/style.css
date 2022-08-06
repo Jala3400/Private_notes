@@ -1,7 +1,10 @@
 :root {
-    --main-color-light: hsl(152, 90%, 45%);
+    --main-color-light: hsl(0, 0%, 100%);
+    --main-color: hsl(0, 0%, 90%);
+    --hover-color: hsl(0, 0%, 80%);
+    /* --main-color-light: hsl(152, 90%, 45%);
     --main-color: hsl(152, 90%, 40%);
-    --hover-color: hsl(152, 90%, 35%);
+    --hover-color: hsl(152, 90%, 35%); */
 
     --danger-color: hsl(4, 90%, 50%);
     --danger-hover-color: hsl(4, 90%, 45%);
@@ -27,7 +30,7 @@ body {
     margin: 0px;
     height: 100vh;
 
-    background-image: url(../assets/images/background.jpg);
+    background-image: url(../../assets/images/background.jpg);
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

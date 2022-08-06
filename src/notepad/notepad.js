@@ -1,4 +1,3 @@
-
 //Displays the content of the file on the textarea..
 
 window.electronAPI.displayFile((_event, content) => {
