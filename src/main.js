@@ -31,18 +31,18 @@ app.whenReady().then(() => {
     ipcMain.on('login', login);
     ipcMain.on('confirmPassword', confirmPassword);
     ipcMain.on('openFile', tempOpenFile);
-    ipcMain.on('saveFile', tempSaveFile);
+    ipcMain.on('encryptFile', tempEncryptFile);
 })
 
 // Functions used to fix an UnhandledPromiseRejectionWarning error with ipcMain.on
 
-function tempOpenFile(event) {
+function tempOpenFile(event, path) {
     // Intermediate function to open file
-    fm.openFile(event);
+    fm.openFile(event, path);
 }
 
-function tempSaveFile(event, content) {
-    fm.saveFile(event, content);
+function tempEncryptFile(event, content) {
+    fm.encryptFile(event, content);
 }
 
 app.on('window-all-closed', () => {
@@ -78,6 +78,12 @@ const template = [
         submenu: [
             isMac ? { role: 'close' } : { role: 'quit' },
             {
+                label: 'Reset password',
+                accelerator: 'CmdOrCtrl+Shift+Alt+R',
+                click: () => { relaunchApp() },
+            },
+            { type: 'separator' },
+            {
                 label: "Open File",
                 accelerator: 'CmdOrCtrl+O',
                 click: function () {
@@ -85,7 +91,7 @@ const template = [
                         fm.openFile();
                     }
                     else
-                        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        dialog.showMessageBox(mainWindow, {
                             title: 'Error',
                             type: 'info',
                             message: `Login required`,
@@ -99,7 +105,7 @@ const template = [
                         fm.openFolder();
                     }
                     else
-                        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        dialog.showMessageBox(mainWindow, {
                             title: 'Error',
                             type: 'info',
                             message: `Login required`,
@@ -111,10 +117,10 @@ const template = [
                 accelerator: 'CmdOrCtrl+S',
                 click: function () {
                     if (metapassword) {
-                        mainWindow.webContents.send('saveContent')
+                        mainWindow.webContents.send('encryptContent')
                     }
                     else
-                        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+                        dialog.showMessageBox(mainWindow, {
                             title: 'Error',
                             type: 'info',
                             message: `Login required`,
@@ -231,7 +237,7 @@ function confirmPassword(event, password2) {
         mainWindow.loadFile("src/notepad/notepad.html");
     } else {
 
-        dialog.showMessageBox(BrowserWindow.getFocusedWindow(), {
+        dialog.showMessageBox(mainWindow, {
             title: 'Error',
             type: 'info',
             message: `Wrong password`,
@@ -246,6 +252,21 @@ let fm;
 function createMetapassword() {
     metapassword = CryptoJS.SHA3(username + '#' + password).toString();
 
-    // Update file management
+    // Initiates file management
     fm = new FileManagement(mainWindow, metapassword);
+}
+
+//* Relaunch app
+
+function relaunchApp() {
+    if (
+        dialog.showMessageBoxSync(this._mainWindow, {
+            title: 'Relaunch app',
+            type: 'warning',
+            message: 'The app will reset completely.',
+            buttons: ["Continue", "Cancel"],
+        }) === 0) {
+        app.relaunch();
+        app.exit();
+    }
 }

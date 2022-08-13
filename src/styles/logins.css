@@ -48,10 +48,12 @@ input:focus:invalid {
         inset var(--main-color) 0px 0px 8px;
     font-weight: bold;
 }
-#loginbtn:hover:enabled {
+#loginbtn:hover:enabled,
+#loginbtn:focus:enabled {
     background-color: var(--main-color);
     color: var(--text-color);
     box-shadow: none;
+    outline: none;
 }
 #loginbtn:disabled {
     color: var(--danger-color);

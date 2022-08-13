@@ -1,10 +1,13 @@
 :root {
-    --main-color-light: hsl(0, 0%, 100%);
+    /* --main-color-light: hsl(0, 0%, 100%);
     --main-color: hsl(0, 0%, 90%);
-    --hover-color: hsl(0, 0%, 80%);
-    /* --main-color-light: hsl(152, 90%, 45%);
+    --hover-color: hsl(0, 0%, 80%); */
+    /* --main-color-light: hsl(43, 74%, 60%);
+    --main-color: hsl(43, 74%, 50%);
+    --hover-color: hsl(43, 74%, 40%); */
+    --main-color-light: hsl(152, 90%, 45%);
     --main-color: hsl(152, 90%, 40%);
-    --hover-color: hsl(152, 90%, 35%); */
+    --hover-color: hsl(152, 90%, 35%);
 
     --danger-color: hsl(4, 90%, 50%);
     --danger-hover-color: hsl(4, 90%, 45%);

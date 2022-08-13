@@ -3,6 +3,8 @@
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
 }
+
+/* Editor */
 #editor {
     background-color: var(--background-dark);
     width: 90%;
@@ -17,9 +19,13 @@
 #editor:focus {
     outline: solid 1px var(--main-color) !important;
 }
+
+/* Title */
 h1 {
     margin: 5px;
 }
+
+/* Menu bar */
 .button-container {
     background-color: var(--background-dark);
     width: 90%;
@@ -33,4 +39,18 @@ h1 {
     margin: 0px;
     padding: 0 5px;
     border: solid 1px var(--main-color);
+}
+
+/* Drag and drop */
+#drag-and-drop {
+    display: flex;
+    background-color: var(--background-dark);
+    opacity: 0;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    font-size: 10rem;
+    z-index: -1;
+    position: absolute;
 }
