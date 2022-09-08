@@ -3,14 +3,17 @@ const path = require('path')
 const { FileManagement } = require('./scripts/fileManagement');
 const CryptoJS = require('crypto-js');
 
-//* ========================= Main Process =========================
+//* ============================== Main Process ==============================
 
 let mainWindow;
 const createWindow = () => {
     // Create the browser window.
     mainWindow = new BrowserWindow({
         width: 800,
+        // minWidth: 300,
         height: 600,
+        // minHeight: 450,
+        show: false,
         // titleBarStyle: 'hidden',
         // titleBarOverlay: true,
         webPreferences: {
@@ -19,6 +22,10 @@ const createWindow = () => {
     })
 
     mainWindow.loadFile('src/login/login.html');
+    mainWindow.once('ready-to-show', () => {
+        // Shows the window once the content is loaded'
+        mainWindow.show()
+    })
 }
 app.whenReady().then(() => {
     createWindow();
@@ -26,23 +33,25 @@ app.whenReady().then(() => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow()
     });
 
-    // Communication between renderer and main
+    //* Communication between renderer and main
 
     ipcMain.on('login', login);
     ipcMain.on('confirmPassword', confirmPassword);
     ipcMain.on('openFile', tempOpenFile);
     ipcMain.on('encryptFile', tempEncryptFile);
+    ipcMain.on('resetPassword', relaunchApp)
 })
 
 // Functions used to fix an UnhandledPromiseRejectionWarning error with ipcMain.on
+// They are caused because the file management doesn't start until logged in
 
 function tempOpenFile(event, path) {
     // Intermediate function to open file
     fm.openFile(event, path);
 }
 
-function tempEncryptFile(event, content) {
-    fm.encryptFile(event, content);
+function tempEncryptFile(event, content, title) {
+    fm.encryptFile(event, content, title);
 }
 
 app.on('window-all-closed', () => {
@@ -53,6 +62,7 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 
+//* ============================== Menu ==============================
 
 const isMac = process.platform === 'darwin'
 
@@ -89,20 +99,6 @@ const template = [
                 click: function () {
                     if (metapassword) {
                         fm.openFile();
-                    }
-                    else
-                        dialog.showMessageBox(mainWindow, {
-                            title: 'Error',
-                            type: 'info',
-                            message: `Login required`,
-                        });
-                },
-            },
-            {
-                label: "Open Folder",
-                click: function () {
-                    if (metapassword) {
-                        fm.openFolder();
                     }
                     else
                         dialog.showMessageBox(mainWindow, {
@@ -221,17 +217,19 @@ Menu.setApplicationMenu(menu)
 // code. You can also put them in separate files and require them here.
 
 
-//* ========================= Login =========================
+//* ============================== Login ==============================
 
 let username;
 let password;
 
 function login(event, name, pass) {
+    // Assigns variables for the username and password
     username = name;
     password = pass;
 }
 
 function confirmPassword(event, password2) {
+    // Checks if the password is correct ? create metapassword : go back
     if (password2 === password) {
         createMetapassword();
         mainWindow.loadFile("src/notepad/notepad.html");
@@ -250,20 +248,24 @@ let metapassword = null;
 let fm;
 
 function createMetapassword() {
-    metapassword = CryptoJS.SHA3(username + '#' + password).toString();
+    // Creates a metapassword using the hash of the username and password
+    // This creates a completely random password
+    let hashedUsername = CryptoJS.SHA3(username).toString();
+    let hashedPassword = CryptoJS.SHA3(password).toString();
+    metapassword = CryptoJS.SHA3(hashedUsername + '#' + hashedPassword).toString();
 
     // Initiates file management
     fm = new FileManagement(mainWindow, metapassword);
 }
 
-//* Relaunch app
+//* ============================== Relaunch app ==============================
 
 function relaunchApp() {
     if (
-        dialog.showMessageBoxSync(this._mainWindow, {
+        dialog.showMessageBoxSync(this._mainWindow, { // Asks the user if he wants to relaunch the app
             title: 'Relaunch app',
             type: 'warning',
-            message: 'The app will reset completely.',
+            message: 'The app will reset.',
             buttons: ["Continue", "Cancel"],
         }) === 0) {
         app.relaunch();

@@ -1,6 +1,8 @@
 const { dialog } = require('electron');
 const fs = require('fs');
-const enc = require('../scripts/encrypter');
+const path = require('path');
+const enc = require('./encrypter');
+const formatter = require('./formatter');
 
 class FileManagement {
 
@@ -10,40 +12,45 @@ class FileManagement {
         this.metapassword = metapassword;
     }
     //* Open a sigle file
-    openFile(event, path = "") {
+    openFile(event, filePath = "") {
 
-        //* If no path given, displays an open file dialog.
-        if (!path) {
-            // Looking for markdown files
-            const paths = dialog.showOpenDialogSync(this._mainWindow, {
-                filters: [{ name: 'Markdown', extensions: ['lock', 'md', 'txt', 'markdown'] }],
+        if (!filePath) { //* If no path given, displays an open file dialog.
+            const paths = dialog.showOpenDialogSync(this._mainWindow, { // Looks for lockd files
+                filters: [{ name: 'Locked', extensions: ['lockd'] }],
                 properties: ['openFile', 'dontAddToRecent'],
                 // defaultPath: app.getPath('desktop')
             });
 
-            // If no files exit (in case the user cancels the selection)
-            if (paths) {
+            if (paths) { // If no files exit (in case the user cancels the selection)
                 //* Gets the path of the selected file 
-                path = paths[0];
+                filePath = paths[0];
             }
             else return;
         }
 
         //* Opens the file
-
-        let fileContent = fs.readFileSync(path).toString(); // Gets the content of the file
-        if (path.endsWith('.lock')) {
-            // If file is a .lock file decrypts it
-            fileContent = enc.decrypt(fileContent, this.metapassword);
+        let fileContent
+        try {
+            fileContent = fs.readFileSync(filePath).toString(); // Gets the content of the file
         }
-        if (fileContent) {
-            // Displays the file
-            this._mainWindow.webContents.send('displayFile', fileContent);
+        catch (err) {
+            dialog.showMessageBox(this._mainWindow, {
+                title: "Folders aren't supported",
+                type: 'error',
+                message: err.name || 'Error',
+                detail: err.toString()
+            });
+            return
+        }
+        fileContent = enc.decrypt(fileContent, this.metapassword);
+        if (fileContent) { // Displays the file
+            const deFormattedContent = formatter.deFormatNote(fileContent);
+            this._mainWindow.webContents.send('displayFile', deFormattedContent, path.basename(filePath, ".lockd"));
         } else {
             dialog.showMessageBox(this._mainWindow, {
                 title: 'Encryption Error',
                 type: 'error',
-                message: 'This file is empty or the username and password are incorrect',
+                message: 'The username and/or password are incorrect',
             })
         }
     }
@@ -65,15 +72,17 @@ class FileManagement {
         //     }
         // } else return;
     }
-
-    async encryptFile(event, content) {
-        let path = dialog.showSaveDialogSync(this._mainWindow, {
-            filters: [{ name: 'Markdown', extensions: ['lock', 'md', 'txt', 'markdown'] }],
+    
+    async encryptFile(event, content, title) {
+        let path = dialog.showSaveDialogSync(this._mainWindow, { // Looks for a place to store the file
+            filters: [{ name: 'Locked', extensions: ['lockd'] }],
             properties: ['dontAddToRecent'],
+            defaultPath: title,
             // defaultPath: app.getPath('desktop')
         })
-        if (path) {
-            const encyptedContent = enc.encrypt(content, this.metapassword);
+        if (path) { // Saves the file
+            const formattedContent = formatter.formatNote(content);
+            const encyptedContent = enc.encrypt(formattedContent, this.metapassword);
             fs.writeFile(path,
                 encyptedContent, (err) => {
                     if (err) {

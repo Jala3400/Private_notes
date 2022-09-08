@@ -4,44 +4,8 @@
     -webkit-backdrop-filter: blur(2px);
 }
 
-/* Editor */
-#editor {
-    background-color: var(--background-dark);
-    width: 90%;
-    min-height: 66%;
-    /* margin: 5px; */
-    padding: 5px 7px;
-    outline: none;
-    border-radius: 0 0 var(--medium-border-radius) var(--medium-border-radius);
-    border: none;
-    resize: none;
-}
-#editor:focus {
-    outline: solid 1px var(--main-color) !important;
-}
+/** ============================== Drag and drop ============================== */
 
-/* Title */
-h1 {
-    margin: 5px;
-}
-
-/* Menu bar */
-.button-container {
-    background-color: var(--background-dark);
-    width: 90%;
-    padding: 5px 7px;
-    border-bottom: solid 1px var(--main-color);
-    border-radius: var(--medium-border-radius) var(--medium-border-radius) 0 0;
-}
-.button-container button {
-    background-color: transparent;
-    height: 30px;
-    margin: 0px;
-    padding: 0 5px;
-    border: solid 1px var(--main-color);
-}
-
-/* Drag and drop */
 #drag-and-drop {
     display: flex;
     background-color: var(--background-dark);
@@ -53,4 +17,177 @@ h1 {
     font-size: 10rem;
     z-index: -1;
     position: absolute;
+    overflow: hidden;
+}
+
+/** ============================== Notepad ============================== */
+
+#notepad {
+    width: 80%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 3.5rem minmax(20%, 10rem) minmax(50%, auto);
+    grid-template-rows: 45px 3.5rem auto;
+    grid-template-areas:
+        "toolsBar sideBar buttonBar"
+        "toolsBar sideBar titleInput"
+        "toolsBar sideBar textarea";
+    border-radius: var(--big-border-radius);
+    overflow: hidden;
+}
+
+/** ============================== Tools bar ============================== */
+#tools-bar {
+    background-color: var(--background-dark);
+    border-right: 2px solid var(--background-dark-lighter);
+    grid-area: toolsBar;
+    overflow: hidden;
+}
+
+/* Tool button */
+.toolbtn {
+    color: var(--main-color);
+    background-color: transparent;
+    border: 1px solid var(--main-color);
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: 16px;
+}
+.toolbtn:hover {
+    color: var(--text-primary);
+    background-color: var(--main-color);
+}
+
+/** ============================== Side bar ============================== */
+
+#side-bar {
+    background-color: var(--background-dark);
+    border-right: 2px solid var(--background-dark-lighter);
+    /* padding-left: 10px; */
+    grid-area: sideBar;
+    overflow: auto;
+}
+
+/** Info */
+#info {
+    cursor: default;
+    margin: 10px;
+}
+
+/* Note title */
+#notepad-title {
+    font-size: 24px;
+    border: none;
+    outline: none;
+    background-color: var(--background-dark);
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Properties */
+#note-counter {
+    color: var(--text-secondary);
+}
+
+/** Note tab */
+.note-tab {
+    display: flex;
+    /* justify-content: right; */
+    align-items: center;
+    padding: 10px;
+    border-top: 1px solid var(--background-dark-lighter);
+    cursor: pointer;
+}
+.note-tab.selected {
+    padding-left: 20px;
+    background-color: var(--background-dark-light);
+}
+.note-tab:hover {
+    background-color: var(--background-dark-lighter);
+}
+
+/* Note title */
+.note-title {
+    max-width: 100%;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.note-tab.selected .note-title {
+    color: var(--main-color);
+}
+
+/* Delete note */
+.delete-note {
+    opacity: 0;
+    position: relative;
+    padding: 4px;
+    margin: 0;
+    margin-left: auto;
+    color: var(--danger-color);
+    background-color: transparent;
+    border-radius: 5px;
+}
+.delete-note:hover {
+    color: var(--text-primary);
+    background-color: var(--danger-color);
+}
+.note-tab:hover .delete-note {
+    opacity: 1;
+}
+
+/** Add note button */
+#add-note {
+    width: calc(100% - 20px);
+    margin: 10px;
+    color: var(--main-color);
+    background-color: transparent;
+    border: 1px solid var(--main-color);
+}
+#add-note:hover {
+    color: var(--text-primary);
+    background-color: var(--main-color);
+}
+
+/** ============================== Button bar ============================== */
+.button-bar {
+    display: flex;
+    align-items: center;
+    background-color: var(--background-dark-light);
+    padding: 5px;
+    border-bottom: solid 2px var(--background-dark-lighter);
+    grid-area: buttonBar;
+    overflow: hidden;
+}
+.button-bar button {
+    background-color: transparent;
+    height: 30px;
+    margin: 5px;
+    padding: 0 10px;
+}
+
+/** ============================== Textarea ============================== */
+
+/* Title input */
+#title-input {
+    padding: 20px;
+    padding-bottom: 10px;
+    font-size: 32px;
+    background-color: var(--background-dark-light);
+    grid-area: titleInput;
+    border: none;
+    outline: none;
+}
+
+/* Note input*/
+#note-input {
+    padding: 20px;
+    padding-top: 10px;
+    background-color: var(--background-dark-light);
+    outline: none;
+    border: none;
+    resize: none;
+    grid-area: textarea;
 }

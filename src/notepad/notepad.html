@@ -8,22 +8,51 @@
             content="default-src 'self'; script-src 'self'"
         />
         <title>Private_notes</title>
-        <link rel="stylesheet" type="text/css" href="../styles/style.css" />
+        <link rel="stylesheet" type="text/css" href="../styles/global.css" />
         <link rel="stylesheet" type="text/css" href="notepad.css" />
     </head>
-    <body>
+    <body class="center-inside">
         <div id="drag-and-drop">Drop file</div>
-        <div class="center-inside">
-            <h1>Notes</h1>
-            <div class="button-container">
+        <div id="notepad">
+            <div id="tools-bar">
+                <button
+                    id="reset-password-tool"
+                    class="toolbtn"
+                    title="Reset password"
+                >
+                    R
+                </button>
+                <!-- <button
+                    id="new-notepad-tool"
+                    class="toolbtn"
+                    title="New notepad"
+                >
+                    +
+                </button> -->
+            </div>
+            <div id="side-bar">
+                <div id="info">
+                    <input type="text" value="New notepad" id="notepad-title"></input>
+                    <div id="note-counter">1 note</div>
+                </div>
+                <div id="note-tabs-container">
+                    <div class="note-tab selected" draggable="true">
+                        <p class="note-title">New note</p>
+                        <button class="delete-note">X</button>
+                    </div>
+                </div>
+                <button id="add-note">+ Add note +</button>
+            </div>
+            <div class="button-bar">
                 <button id="openFile">Open file</button>
                 <button id="encryptFile">Encrypt file</button>
             </div>
-            <textarea id="editor"></textarea>
-
-            <!-- You can also require other files to run in this process -->
-            <script src="../renderer.js"></script>
-            <script src="./notepad.js"></script>
+            <input type="text" placeholder="Title" value="New note" id="title-input" />
+            <textarea placeholder="Note" id="note-input"></textarea>
         </div>
+
+        <!-- You can also require other files to run in this process -->
+        <script src="../renderer.js"></script>
+        <script src="./notepad.js"></script>
     </body>
 </html>

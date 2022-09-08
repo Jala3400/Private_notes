@@ -8,7 +8,7 @@ function login() {
     window.location.assign("../confirm_password/confirm_password.html");
 }
 
-document.getElementById("loginbtn").onclick = login;
+document.getElementById("loginbtn").addEventListener("click", login);
 
 document.getElementById("password").addEventListener('input', (event) => {
     // Validate the entire form to see if we should enable the `Submit` button.

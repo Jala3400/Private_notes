@@ -50,8 +50,8 @@ input:focus:invalid {
 }
 #loginbtn:hover:enabled,
 #loginbtn:focus:enabled {
+    color: var(--text-primary);
     background-color: var(--main-color);
-    color: var(--text-color);
     box-shadow: none;
     outline: none;
 }

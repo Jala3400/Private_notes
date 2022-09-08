@@ -1,6 +1,6 @@
 # Private notes
 
-This app uses both your username and password (`username` + '#' + `password`]) to encrypt your files
+This app uses both your username and password (SHA3(`username`) + '#' + SHA3(`password`)]) to encrypt your files
 
 ---
 
