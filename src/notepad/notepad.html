@@ -11,9 +11,14 @@
         <link rel="stylesheet" type="text/css" href="../styles/global.css" />
         <link rel="stylesheet" type="text/css" href="notepad.css" />
     </head>
-    <body class="center-inside">
+    <body class="center-inside full-window">
         <div id="drag-and-drop">Drop file</div>
+
+        <!-- notepad -->
+
         <div id="notepad">
+            <!-- Tools bar -->
+
             <div id="tools-bar">
                 <button
                     id="reset-password-tool"
@@ -29,10 +34,26 @@
                 >
                     +
                 </button> -->
+                <div id="bottom-tools" class="bottom-bar-section">
+                    <button
+                        id="open-config-button"
+                        class="toolbtn"
+                        title="Open config"
+                    >
+                        C
+                    </button>
+                </div>
             </div>
-            <div id="side-bar">
+
+            <!-- Sidebar -->
+
+            <div id="sidebar">
                 <div id="info">
-                    <input type="text" value="New notepad" id="notepad-title"></input>
+                    <input
+                        type="text"
+                        value="New notepad"
+                        id="notepad-title-input"
+                    />
                     <div id="note-counter">1 note</div>
                 </div>
                 <div id="note-tabs-container">
@@ -41,14 +62,91 @@
                         <button class="delete-note">X</button>
                     </div>
                 </div>
-                <button id="add-note">+ Add note +</button>
+                <button id="add-note" class="goodbtn">+ Add note +</button>
             </div>
+
+            <!-- Textarea -->
+
             <div class="button-bar">
                 <button id="openFile">Open file</button>
                 <button id="encryptFile">Encrypt file</button>
             </div>
-            <input type="text" placeholder="Title" value="New note" id="title-input" />
-            <textarea placeholder="Note" id="note-input"></textarea>
+            <input
+                type="text"
+                placeholder="Title"
+                value="New note"
+                id="title-input"
+            />
+            <textarea
+                placeholder="Note"
+                class="normal-textarea"
+                id="note-input"
+            ></textarea>
+        </div>
+
+        <!-- Delete note -->
+
+        <div id="delete-note-modal" class="center-inside full-window modalbg">
+            <div id="delete-note-cancelbg" class="full-window cancelbg"></div>
+            <div class="modal">
+                <h2>Delete note</h2>
+                <p>Are you sure you want to delete this note?</p>
+                <div class="button-pair">
+                    <button id="confirm-delete-button" class="dangerbtn">
+                        Yes
+                    </button>
+                    <button id="cancel-delete-button" class="cancelbtn">
+                        No
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Config -->
+
+        <div id="config-modalbg" class="center-inside full-window modalbg">
+            <div id="config-cancelbg" class="full-window cancelbg"></div>
+            <div id="config-popout" class="modal">
+                <h2 id="config-title">Configuration</h2>
+                <p id="config-version">Note version: 1.1</p>
+                <div class="text-input" id="config-private-title">
+                    <label for="config-private-title-input"
+                        >Private title</label
+                    >
+                    <input
+                        type="text"
+                        class="normal-text-input"
+                        id="config-private-title-input"
+                        value="New notepad"
+                    />
+                </div>
+                <div class="text-input" id="config-public-title">
+                    <label for="config-public-title-input">Public title </label>
+                    <input
+                        type="text"
+                        class="normal-text-input"
+                        id="config-public-title-input"
+                        value="Random notes"
+                    />
+                </div>
+                <div id="config-description">
+                    <label for="config-description-input">Description</label>
+                    <textarea
+                        id="config-description-input"
+                        class="normal-textarea"
+                    >
+Secret notes</textarea
+                    >
+                </div>
+                <div class="button-pair" id="config-button-pair">
+                    <button id="save-config-button" class="dangerbtn">
+                        Save
+                    </button>
+                    <button id="close-config-button" class="cancelbtn">
+                        Cancel
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- You can also require other files to run in this process -->

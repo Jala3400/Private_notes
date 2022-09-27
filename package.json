@@ -1,6 +1,6 @@
 {
   "name": "private-notes",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "App to encrypt notes",
   "main": "src/main.js",
   "scripts": {

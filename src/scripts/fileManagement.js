@@ -1,4 +1,5 @@
 const { dialog } = require('electron');
+const { app } = require('electron');
 const fs = require('fs');
 const path = require('path');
 const enc = require('./encrypter');
@@ -18,7 +19,7 @@ class FileManagement {
             const paths = dialog.showOpenDialogSync(this._mainWindow, { // Looks for lockd files
                 filters: [{ name: 'Locked', extensions: ['lockd'] }],
                 properties: ['openFile', 'dontAddToRecent'],
-                // defaultPath: app.getPath('desktop')
+                defaultPath: app.getPath('desktop')
             });
 
             if (paths) { // If no files exit (in case the user cancels the selection)
@@ -30,6 +31,7 @@ class FileManagement {
 
         //* Opens the file
         let fileContent
+
         try {
             fileContent = fs.readFileSync(filePath).toString(); // Gets the content of the file
         }
@@ -42,16 +44,33 @@ class FileManagement {
             });
             return
         }
-        fileContent = enc.decrypt(fileContent, this.metapassword);
-        if (fileContent) { // Displays the file
-            const deFormattedContent = formatter.deFormatNote(fileContent);
-            this._mainWindow.webContents.send('displayFile', deFormattedContent, path.basename(filePath, ".lockd"));
-        } else {
+
+        try {
+            fileContent = enc.decrypt(fileContent, this.metapassword);
+            var deFormattedContent = formatter.deformatFile(fileContent);
+        } catch (err) {
             dialog.showMessageBox(this._mainWindow, {
                 title: 'Encryption Error',
                 type: 'error',
                 message: 'The username and/or password are incorrect',
+                detail: err.toString()
             })
+        }
+
+        if (fileContent) { // Displays the file
+            try {
+                let fileTitle = path.parse(filePath).name;
+                deFormattedContent.fileConfig.publicTitle = fileTitle;
+                this._mainWindow.webContents.send('displayFile', deFormattedContent);
+            }
+            catch (err) {
+                dialog.showMessageBox(this._mainWindow, {
+                    title: 'Formatting error',
+                    type: 'error',
+                    message: 'The notes might be from a different version',
+                    detail: err.toString()
+                })
+            }
         }
     }
 
@@ -72,16 +91,15 @@ class FileManagement {
         //     }
         // } else return;
     }
-    
-    async encryptFile(event, content, title) {
+
+    async encryptFile(event, content) {
         let path = dialog.showSaveDialogSync(this._mainWindow, { // Looks for a place to store the file
             filters: [{ name: 'Locked', extensions: ['lockd'] }],
             properties: ['dontAddToRecent'],
-            defaultPath: title,
-            // defaultPath: app.getPath('desktop')
+            defaultPath: app.getPath('desktop') + '\\' + content.fileConfig.publicTitle,
         })
         if (path) { // Saves the file
-            const formattedContent = formatter.formatNote(content);
+            const formattedContent = formatter.formatFile(content);
             const encyptedContent = enc.encrypt(formattedContent, this.metapassword);
             fs.writeFile(path,
                 encyptedContent, (err) => {

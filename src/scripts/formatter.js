@@ -1,24 +1,15 @@
 // Regular expression to get the string between brackets /[^{\}]+(?=})/g
-const enc = require('./encrypter');
+// return content.match(/[^{\}]+(?=})/g);
+//* ============================== Format ==============================
 
-// //* ============================== Format ==============================
-
-// function formatFile(config, content, password) { // Formats the file separating the configuration from the notes
-//     return '{Config: ' + enc.encrypt(config, password) + '}' + '{Notes: ' + enc.encrypt(content, password) + '}';
-// }
-
-function formatNote(content) {
+function formatFile(content) { // Formats the file separating the configuration from the notes
     return JSON.stringify(content);
 }
 
-// //* ============================== Deformats ==============================
+//* ============================== Deformats ==============================
 
-// function deformatFile(content) { // Decomposes the file on configuration and  notes
-//     return content.match(/[^{\}]+(?=})/g);
-// }
-
-function deFormatNote(content) {
-    return JSON.parse(content);
+function deformatFile(content) { // Decomposes the file on configuration and  notes
+    return JSON.parse(content)
 }
 
-module.exports = { formatNote, deFormatNote }
+module.exports = { formatFile, deformatFile }

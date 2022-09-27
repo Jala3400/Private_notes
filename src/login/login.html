@@ -13,7 +13,7 @@
         <link rel="stylesheet" type="text/css" href="login.css" />
     </head>
     <body>
-        <div class="center-inside background">
+        <div class="center-inside full-window background">
             <div id="login-container">
                 <img
                     src="../../assets/images/hacker.png"
@@ -25,10 +25,16 @@
                 <h2>Login</h2>
 
                 <label for="username">Username</label>
-                <input type="text" placeholder="Enter username" id="username" />
+                <input
+                    class="normal-text-input"
+                    type="text"
+                    placeholder="Enter username"
+                    id="username"
+                />
 
                 <label for="password">Password</label>
                 <input
+                    class="normal-text-input"
                     type="password"
                     title="8 characters minimum"
                     placeholder="Enter password (8 characters minimum)"
@@ -37,7 +43,9 @@
                     required
                 />
 
-                <button type="submit" id="loginbtn" disabled>Login</button>
+                <button type="submit" id="loginbtn" class="greatbtn" disabled>
+                    Login
+                </button>
                 <a href="#" , class="popup"
                     >New user?
                     <span class="popuptext">Just enter a new one</span>

@@ -45,17 +45,21 @@ body {
     -webkit-backdrop-filter: blur(2px); */
 }
 
-/* Center containers */
+/** ============================== Center containers ============================== */
 
 .center-inside {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
-/* Scrollbar */
+.full-window {
+    height: 100vh;
+    width: 100vw;
+}
+
+/** ============================== Scrollbar ============================== */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -70,7 +74,7 @@ body {
     background-color: var(--main-color-light);
 }
 
-/* Buttons */
+/** ============================== Buttons ============================== */
 
 button {
     margin: 8px;
@@ -80,7 +84,93 @@ button {
     cursor: pointer;
 }
 
-/* Little details*/
+/* Cancel button */
+
+.cancelbtn {
+    background-color: transparent;
+    border: 1px solid;
+}
+.cancelbtn:hover {
+    font-style: bold;
+    text-decoration: underline;
+    background-color: hsla(0, 0%, 95%, 0.15);
+}
+
+/* Danger button*/
+
+.dangerbtn {
+    background-color: var(--danger-hover-color);
+}
+.dangerbtn:hover {
+    background-color: var(--danger-color);
+}
+
+/* Good button */
+
+.goodbtn {
+    color: var(--main-color);
+    background-color: transparent;
+    border: 1px solid var(--main-color);
+}
+.goodbtn:hover {
+    color: var(--text-primary);
+    background-color: var(--main-color);
+}
+
+/* Great button */
+
+.greatbtn {
+    background-color: transparent;
+    color: var(--main-color);
+    border: 1px solid var(--main-color);
+    box-shadow: var(--main-color) 0px 0px 8px,
+        inset var(--main-color) 0px 0px 8px;
+    font-weight: bold;
+}
+.greatbtn:hover:enabled,
+.greatbtn:focus:enabled {
+    color: var(--text-primary);
+    background-color: var(--main-color);
+    box-shadow: none;
+    outline: none;
+}
+.greatbtn:disabled {
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+    box-shadow: var(--danger-color) 0px 0px 8px,
+        inset var(--danger-color) 0px 0px 8px;
+    opacity: 0.8;
+}
+
+/** ============================== Inputs ============================== */
+
+.normal-text-input {
+    width: 100%;
+    border: none;
+    background-color: var(--background-dark-lighter);
+    border-radius: var(--medium-border-radius);
+    box-sizing: border-box;
+}
+.normal-text-input:focus:valid {
+    outline: solid 1px var(--main-color);
+}
+.normal-text-input:focus:invalid {
+    outline: solid 1px var(--danger-color);
+    caret-color: var(--danger-color);
+}
+
+/** Textareas */
+
+.normal-textarea {
+    background-color: var(--background-dark-lighter);
+    border-radius: var(--medium-border-radius);
+    width: 100%;
+    outline: none;
+    border: none;
+    resize: none;
+}
+
+/** ============================== Little details ============================== */
 
 /* Changes input carret color */
 input,

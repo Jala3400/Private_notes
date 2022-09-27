@@ -1,23 +1,19 @@
-.background {
-    background-color: rgba(26, 26, 26, 0.1);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-}
-
 /** ============================== Drag and drop ============================== */
 
 #drag-and-drop {
+    position: absolute;
     display: flex;
+    justify-content: center;
+    align-items: center;
     background-color: var(--background-dark);
     opacity: 0;
     width: 100vw;
     height: 100vh;
-    justify-content: center;
-    align-items: center;
     font-size: 10rem;
     z-index: -1;
-    position: absolute;
     overflow: hidden;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 /** ============================== Notepad ============================== */
@@ -38,6 +34,9 @@
 
 /** ============================== Tools bar ============================== */
 #tools-bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     background-color: var(--background-dark);
     border-right: 2px solid var(--background-dark-lighter);
     grid-area: toolsBar;
@@ -59,9 +58,15 @@
     background-color: var(--main-color);
 }
 
+/* Bottom section */
+
+.bottom-bar-section {
+    border-top: 1px solid var(--main-color);
+}
+
 /** ============================== Side bar ============================== */
 
-#side-bar {
+#sidebar {
     background-color: var(--background-dark);
     border-right: 2px solid var(--background-dark-lighter);
     /* padding-left: 10px; */
@@ -76,7 +81,7 @@
 }
 
 /* Note title */
-#notepad-title {
+#notepad-title-input {
     font-size: 24px;
     border: none;
     outline: none;
@@ -93,7 +98,6 @@
 /** Note tab */
 .note-tab {
     display: flex;
-    /* justify-content: right; */
     align-items: center;
     padding: 10px;
     border-top: 1px solid var(--background-dark-lighter);
@@ -142,13 +146,6 @@
 #add-note {
     width: calc(100% - 20px);
     margin: 10px;
-    color: var(--main-color);
-    background-color: transparent;
-    border: 1px solid var(--main-color);
-}
-#add-note:hover {
-    color: var(--text-primary);
-    background-color: var(--main-color);
 }
 
 /** ============================== Button bar ============================== */
@@ -185,9 +182,90 @@
 #note-input {
     padding: 20px;
     padding-top: 10px;
+    border-radius: 0;
     background-color: var(--background-dark-light);
-    outline: none;
-    border: none;
-    resize: none;
-    grid-area: textarea;
+}
+
+/** ============================== Modals ============================== */
+
+.modalbg {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(26, 26, 26, 0.1);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: -1;
+    opacity: 0;
+}
+
+.cancelbg {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.modal {
+    border: 2px solid var(--main-color);
+    background-color: var(--background-dark);
+    border-radius: var(--medium-border-radius);
+    padding: 1rem;
+}
+
+.modal h2 {
+    margin: 10px;
+}
+
+.show {
+    z-index: 1;
+    opacity: 1;
+}
+
+.button-pair {
+    display: flex;
+}
+.button-pair button {
+    width: 50%;
+}
+
+/** ============================== Config ============================== */
+
+#config-popout {
+    display: grid;
+    row-gap: 10px;
+    column-gap: 10px;
+    grid-template-areas:
+        "title info"
+        "private-title public-title"
+        "description description"
+        "buttons buttons";
+}
+
+#config-popout .normal-text-input,
+#config-popout .normal-textarea {
+    margin: 8px 0;
+    padding: 5px;
+}
+
+#config-title {
+    grid-area: title;
+}
+#config-version {
+    grid-area: info;
+}
+
+#config-public-title {
+    grid-area: public-title;
+}
+#config-private-title {
+    grid-area: private-title;
+}
+
+#config-description {
+    grid-area: description;
+    max-width: calc(100% - 10px);
+}
+#config-button-pair {
+    grid-area: buttons;
 }
